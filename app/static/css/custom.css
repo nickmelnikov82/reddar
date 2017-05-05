@@ -1,5 +1,5 @@
 body {
-/*    background-color: #999;*/
+    /*    background-color: #999;*/
     background-image: url("../img/bg.jpg");
     background-size: cover;
     padding-top: 50px;
@@ -11,7 +11,7 @@ body {
 }
 
 .image-bg-fluid-height {
-/*	background: url("../img/bg.jpg");*/
+    /*	background: url("../img/bg.jpg");*/
     padding: 100px 100px;
 }
 
@@ -54,4 +54,87 @@ footer {
     .section-heading {
         font-size: 2em;
     }
+}
+
+#nav{
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-color: white;
+    border-width: 2px;
+    border-style: dotted;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 150px;
+    padding-right: 150px;   
+}
+
+.grid-item{
+    margin-left: 10px;
+    float: left;
+    width: 275px;
+    height: 200px;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: dotted;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.grid-item:hover{
+    -webkit-transition: all 0.35s;
+    -moz-transition: all 0.35s;
+    transition: all 0.35s;
+    background: #d64759;
+}
+
+.grid-item--height2{
+    height: 340px; 
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: dotted;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.card-style1{
+    border-color: white;
+    color: white;
+    a{
+        color: white;
+        font-size: 20px;
+    }
+}
+
+.card-style2{
+    hr{
+        border-top-color: black !important;
+        color: black;
+    }
+    border-color: black;
+    background-color: white;
+    color: black;
+    a{
+        color: white;
+        font-size: 20px;
+    }
+}
+
+.card-style2 hr{
+    border-top-color: black !important;
+    color: black;
+}
+
+
+.title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+hr{
+    margin: 5px;
+    border-width: 1px;
+    border-style: dotted;
 }

@@ -1,0 +1,11 @@
+
+{% for thread in threads %}
+{% with thread = thread %}
+{% include "grid.html" %}
+{% endwith %}
+{% endfor %}
+
+<script>
+	$(".grid-item:even" ).addClass("card-style1")
+	$(".grid-item:odd" ).addClass("card-style2")
+</script>

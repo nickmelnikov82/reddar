@@ -1,0 +1,22 @@
+{% if thread.abstract|length > 200 %}
+<div class="grid-item grid-item--height2">
+{% else %}
+<div class="grid-item">
+{% endif %}
+<!-- <a  href="/thread/{{thread.Id}}"> -->
+	<div>
+		<div class="title">{{thread.title[0:50]}}</div>
+		<hr>
+		<div class="abstract">
+			<p>{{thread.abstract}}</p>
+
+		</div>
+		<hr>
+		<div class="footer col-sm-12">	    
+			<div class="col-sm-4">{{thread.time}}</div>
+			<div class="col-sm-4">{{thread.author}}</div>
+			<div class="col-sm-4">{{thread.comment_number}}</div>
+		</div>
+	</div>
+<!-- </a> -->
+</div>
