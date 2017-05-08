@@ -1,57 +1,67 @@
-(function() {
 
-	// Main content container
-	var $container = $('.grid');
+	var colors = [
+	'linear-gradient(90deg, #f1f2b5 10%, #135058 90%)',
+	'linear-gradient(90deg, #a770ef 10%, #cf8bf3 90%)',
+	'linear-gradient(90deg, #20002c 10%, #cbb4d4 90%)',
+	'linear-gradient(90deg, #000046 10%, #1cb5e0 90%)',
+	'linear-gradient(90deg, #4ac29a 10%, #bdfff3 90%)',
+	'linear-gradient(90deg, #FD6F46 10%, #FB9832 90%)', 
+	'linear-gradient(90deg, #01a99c 10%, #0698b1 90%)',
+	'linear-gradient(90deg, #99D22B 10%, #FBFF00 90%)',
+	'inear-gradient(90deg, #50C9C3 10%, #96DEDA 90%)',
+	'linear-gradient(90deg, #d64759 10%, #da7352 90%)',
+	'linear-gradient(90deg,#224e4d 10%,#083023 90%)'
+	];
 
-	Masonry + ImagesLoaded
-	$container.imagesLoaded(function(){
-		$container.masonry({
-			// selector for entry content
-			itemSelector: '.grid-item',
-			columnWidth: 100
-		});
-	});
+
+$(".grid-item").hover(
+	function() {
+		$(this).css("background-color", colors[Math.floor(Math.random() * colors.length)]);
+	}, function() {
+		$(this).css("background-color","");
+});
+
+$(".grid-item:even" ).addClass("card-style1")
+$(".grid-item:odd" ).addClass("card-style2")
+$('.grid').masonry({
+      // set itemSelector so .grid-sizer is not used in layout
+      itemSelector: '.grid-item',
+      // use element for option
+      columnWidth: 200,
+      percentPosition: true,
+      transitionDuration: '0.2s',
+      isInitLayout: false
+  })
 
 
-	$container.infinitescroll({
+$(window).scroll(function(){
+	if($(window).scrollTop() == $(document).height() - $(window).height()){
 
-		// selector for the paged navigation (it will be hidden)
-		navSelector  : ".navigation",
-		// selector for the NEXT link (to page 2)
-		nextSelector : ".nav-previous a",
-		// selector for all items you'll retrieve
-		itemSelector : ".grid-item",
+		$('div#loadmoreajaxloader').show();
+		$.ajax({
+			url: "search",
+			data: {"query": $("#query").val(),"page":$("#page").val()},
+			success: function(html){
+				if(html){
+					var $elements = $( html );
+					if((parseInt($("#page").val()) + 1) % parseInt($("#total").val())){
+						$("#page").val(2);
+					}else{
+						$("#page").val(parseInt($("#page").val()) + 1);
 
-		// finished message
-		loading: {
-			finishedMsg: 'No more pages to load.'
+					}
+
+					$("#page").val();
+					$('.grid').append($elements)
+					$('.grid').masonry( 'appended', $elements);
+					$('div#loadmoreajaxloader').hide();
+				}else{
+
+					alert("failure");
+					$('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
+				}
 			}
-		},
+		});
+	}
+});
 
-		// Trigger Masonry as a callback
-		function( newElements ) {
-			// hide new items while they are loading
-			var $newElems = $( newElements ).css({ opacity: 0 });
-			// ensure that images load before adding to masonry layout
-			$newElems.imagesLoaded(function(){
-				// show elems now they're ready
-				$newElems.animate({ opacity: 1 });
-				$container.masonry( 'appended', $newElems, true );
-			});
-
-	});
-	
-	/**
-	 * OPTIONAL!
-	 * Load new pages by clicking a link
-	 */
-	// Pause Infinite Scroll
-	$(window).unbind('.infscr');
-
-	// Resume Infinite Scroll
-	$('.nav-previous a').click(function(){
-		$container.infinitescroll('retrieve');
-		return false;
-	});
-
-})();

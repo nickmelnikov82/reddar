@@ -1,5 +1,11 @@
 <div class="search_bar">
-    <form class="form" action="search" method="get">
+    <div class="tn-group  col-sm-2">
+        <select name="genre" class="form-control">
+          <option value="popularity">Popularity</option>
+          <option value="comment">Comments</option>
+        </select>
+    </div>
+    <form class="col-sm-10 form" action="search" method="get">
         <div class="form-group input-group">
             <input type="text" class="form-control" name="query">
             <input type="hidden" class="form-control" name="page" value="1">
@@ -10,14 +16,4 @@
             </span>
         </div>
     </form>
-
-    <div class="btn-group">
-          <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Time <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="#">Popularity</a></li>
-            <li><a href="#">Comments</a></li>
-        </ul>
-    </div>
 </div>

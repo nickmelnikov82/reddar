@@ -5,17 +5,17 @@
 {% endif %}
 <!-- <a  href="/thread/{{thread.Id}}"> -->
 	<div>
-		<div class="title">{{thread.title[0:50]}}</div>
+		<div class="title"><a href="/thread/{{thread.Id}}">Reddit : {{thread.title[0:50]}}</a></div>
 		<hr>
-		<div class="abstract">
-			<p>{{thread.abstract}}</p>
+		<div class="abstract"><a href="/thread/{{thread.id}}">
+			<p>{{thread.abstract}}</p></a>
 
 		</div>
 		<hr>
-		<div class="footer col-sm-12">	    
-			<div class="col-sm-4">{{thread.time}}</div>
-			<div class="col-sm-4">{{thread.author}}</div>
-			<div class="col-sm-4">{{thread.comment_number}}</div>
+		<div class="grid-footer col-sm-12">	    
+			<div class="col-sm-5">{{thread.time}}</div>
+			<div class="col-sm-5">{{thread.author}}</div>
+			<div class="col-sm-2">{{thread.comment_number}}</div>
 		</div>
 	</div>
 <!-- </a> -->

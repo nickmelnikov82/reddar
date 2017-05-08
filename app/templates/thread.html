@@ -14,17 +14,24 @@
     <div class="container">
     {% include "header.html" %}
         <!-- Content Section-->
-    <div class="section">
-      <!-- Small button group -->
-        {% for comment in thread.comments %}
-        {% with comment = comment %}
-        {% include "comment.html" %}
-        {% endwith %}
-        {% endfor %}
+        <div class="section row">
+            <div class="col-md-12">
+            {% with args = {"comment" : thread, "style" : 0} %}
+            {% include "comment.html"%}
+            {% endwith %}
+            </div>
+          <!-- Small button group --> 
+            <div class="col-md-11 col-md-offset-1">
+                {% for comment in comments %}
+                {% with args = {"comment" : comment, "style" : 1} %}
+                {% include "comment.html"  %}
+                {% endwith %}
+                {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
-<!-- Footer -->
-<script src="../static/js/jquery.js"></script>
-<script src="../static/js/bootstrap.js"></script>
+    <!-- Footer -->
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
 </body>
 </html>
