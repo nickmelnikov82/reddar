@@ -144,7 +144,7 @@ def text_search_reddit(query):
     return hits
 
 es = Elasticsearch()
-with open('data.txt') as data_file:
+with open('app/lib/data.txt') as data_file:
     doc=json.load(data_file)
 
 
