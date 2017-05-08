@@ -215,8 +215,8 @@ def search():
     for hit in hits_replies:
         reply=hit['_source']
         red_id=hit['path'][0]
-        red_id=get_reddit(red_id)
-        source=red_id['hits']['hits'][0]
+        source=get_reddit(red_id)
+        source=source['_source']
         new_reddit=Reddit(source['id'],source['title'],reply['body'],source['time'],source['author'],reply['id'])
         reddits.append(new_reddit)
 
@@ -228,10 +228,10 @@ def search():
 
 
 
-    if page == 1:
-        return render_template('index.html', threads=reddits[0:10], page=2, query=query, total = len(threads)/10)
+    if page == 0:
+        return render_template('search.html', reddits=reddits[0:10], page=2, query=query, total = len(reddits)/10)
     else:
-        return render_template('ajax.html', threads=reddits[page * 10:page * 10 + 10])
+        return render_template('ajax.html', reddits=reddits[page * 10:page * 10 + 10])
 
 #
 # }

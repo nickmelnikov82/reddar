@@ -19,8 +19,8 @@
             <input type= "hidden" id = "query" value="{{query}}">
             <input type= "hidden" id = "total" value="{{total}}">
             <div class="grid js-masonry scroll" id="container">
-                {% for thread in threads %}
-                {% with thread = thread %}
+                {% for reddit in reddits %}
+                {% with reddit = reddit %}
                 {% include "grid.html" %}
                 {% endwith %}
                 {% endfor %}
