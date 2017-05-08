@@ -14,15 +14,7 @@ def add_header(r):
 @app.route("/", methods=['GET'])
 @app.route("/index", methods=['GET'])
 def index():
-    threads = []
-    for i in range(100):
-        if i % 2 == 0:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-        else:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-
-        threads.append(thread)
-    return render_template('index.html', threads = threads[0:10], page = 2,total = len(threads)/10)
+    return render_template('index.html')
 
 
 @app.route('/thread/<Id>')
@@ -73,7 +65,7 @@ def search():
 
 
     if page == 1:
-        return render_template('index.html', threads=threads[0:10], page=2, query=query, total = len(threads)/10)
+        return render_template('search.html', threads=threads[0:10], page=2, query=query, total = len(threads)/10)
     else:
         return render_template('ajax.html', threads=threads[page * 10:page * 10 + 10])
 

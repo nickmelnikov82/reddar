@@ -12,28 +12,40 @@
 
 <body>
     <div class="container">
-        {% include "header.html" %}
+        <header id="jumbotron" class="text-center">
+            <h1>I AM A</h1>
+        </header>
         <!-- Content Section-->
-        <div class="section">
-            <input type= "hidden" id = "page" value="{{page}}">
-            <input type= "hidden" id = "query" value="{{query}}">
-            <input type= "hidden" id = "total" value="{{total}}">
-            <div class="grid js-masonry scroll" id="container">
-                {% for thread in threads %}
-                {% with thread = thread %}
-                {% include "grid.html" %}
-                {% endwith %}
-                {% endfor %}
-            </div>
-            <div id="loadmoreajaxloader" style="display:none;"><center><img src="../static/img/ajax-loader.gif" /></center></div>
+        <section>
+            <div id="index_search_bar"">
+                <div class="row">
+                  <form class="col-sm-12 form" action="search" method="get">
+                    <div class="tn-group  col-sm-2">
+                        <select name="genre" class="form-control">
+                          <option value="0">Popularity</option>
+                          <option value="1">Comments</option>
+                      </select>
+                  </div>
+                  <div class="form-group input-group">
+                    <input type="text" class="form-control" name="query">
+                    <input type="hidden" class="form-control" name="page" value="1">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
         </div>
     </div>
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/js/jquery.infinitescroll.min.js"></script>  
-    <script src="../static/js/bootstrap.js"></script>
-    <script src="../static/js/masonry.pkgd.min.js"></script>
-    <script src="../static/js/custom.js"></script>>
-    <!-- Footer -->
+</section>
+</div>
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/jquery.infinitescroll.min.js"></script>  
+<script src="../static/js/bootstrap.js"></script>
+<script src="../static/js/masonry.pkgd.min.js"></script>
+<script src="../static/js/custom.js"></script>>
+<!-- Footer -->
 </body>
 </html>
 
