@@ -209,11 +209,24 @@ def search():
     sort=int(request.args.get('sort'))
     hits_reddit=text_search_reddit(query)
     hits_replies=text_search_replies(query)
+    if sort==1:
+        hits_reddit.sort(key=lambda x:x._source.time,reversed=True)
+        hits_replies.sort(key=lambda x: x._source.time, reversed=True)
+    elif sort==2:
+        hits_reddit.sort(key=lambda x: x._source.score, reversed=True)
+        hits_replies.sort(key=lambda x: x._source.score, reversed=True)
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],source['selftext_html'],source['time'],source['author'],source['id'])
-        reddits.append()
+        new_reddit=Reddit(source['id'],source['title'],source['selftext_html'],source['time'],source['author'],0)
+        reddits.append(new_reddit)
+    for hit in hits_replies:
+        reply=hit['_source']
+        red_id=hit['path'][0]
+        red_id=get_reddit(red_id)
+        source=red_id['hits']['hits'][0]
+        new_reddit=Reddit(source['id'],source['title'],reply['body'],source['time'],source['author'],reply['id'])
+        reddits.append(new_reddit)
 
     # for i in range(100):
     #     if i % 2 == 0:
