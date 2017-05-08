@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="268fc795-073f-40e0-a5f9-06db0a7e5757" name="Default" comment="" />
+=======
     <list default="true" id="268fc795-073f-40e0-a5f9-06db0a7e5757" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views.py" afterPath="$PROJECT_DIR$/app/views.py" />
     </list>
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +27,17 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-450">
               <caret line="178" column="16" lean-forward="false" selection-start-line="178" selection-start-column="15" selection-end-line="178" selection-end-column="16" />
+=======
+<<<<<<< HEAD
+            <state relative-caret-position="262">
+              <caret line="67" column="38" lean-forward="false" selection-start-line="67" selection-start-column="38" selection-end-line="67" selection-end-column="38" />
+=======
+            <state relative-caret-position="396">
+              <caret line="231" column="3" lean-forward="true" selection-start-line="231" selection-start-column="3" selection-end-line="231" selection-end-column="3" />
+>>>>>>> 331ec0ae286e703528abd874d261b8c6856e4ee3
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -47,13 +60,21 @@
       <file leaf-file-name="reddit.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/lib/reddit.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="105">
               <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+=======
+            <state relative-caret-position="60">
+              <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
+>>>>>>> 331ec0ae286e703528abd874d261b8c6856e4ee3
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
       <file leaf-file-name="build_corpus.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/lib/build_corpus.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,6 +97,7 @@
           </provider>
         </entry>
       </file>
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
       <file leaf-file-name="thread.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/lib/thread.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -106,6 +128,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/run.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="body.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/body.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -128,13 +160,16 @@
         <option value="$PROJECT_DIR$/view.py" />
         <option value="$PROJECT_DIR$/app/view.py" />
         <option value="$PROJECT_DIR$/app/templates/index.html" />
-        <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/app/lib/thread.py" />
         <option value="$PROJECT_DIR$/app/templates/comment.html" />
         <option value="$PROJECT_DIR$/app/templates/thread.html" />
         <option value="$PROJECT_DIR$/app/templates/body.html" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/run.py" />
+=======
         <option value="$PROJECT_DIR$/app/lib/test.py" />
         <option value="$PROJECT_DIR$/app/lib/reddit.py" />
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
         <option value="$PROJECT_DIR$/app/views.py" />
       </list>
     </option>
@@ -756,6 +791,9 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py">
+=======
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -765,6 +803,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/lib/es_index.py">
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="46" lean-forward="false" selection-start-line="0" selection-start-column="40" selection-end-line="0" selection-end-column="46" />
@@ -780,6 +819,13 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/templates/body.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="28" lean-forward="true" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+          <folding />
+=======
     <entry file="file://$PROJECT_DIR$/app/lib/es_query.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -787,33 +833,61 @@
           <folding>
             <element signature="e#0#54#0" expanded="true" />
           </folding>
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/body.html">
+    <entry file="file://$PROJECT_DIR$/app/lib/thread.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
+<<<<<<< HEAD
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="41" />
+=======
           <caret line="0" column="28" lean-forward="false" selection-start-line="0" selection-start-column="28" selection-end-line="0" selection-end-column="28" />
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+=======
     <entry file="file://$PROJECT_DIR$/app/templates/thread.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/lib/reddit.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/app/templates/thread.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="14" column="31" lean-forward="false" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
+>>>>>>> 331ec0ae286e703528abd874d261b8c6856e4ee3
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="67" column="38" lean-forward="false" selection-start-line="67" selection-start-column="38" selection-end-line="67" selection-end-column="38" />
+=======
+>>>>>>> 331ec0ae286e703528abd874d261b8c6856e4ee3
     <entry file="file://$PROJECT_DIR$/app/lib/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1491">
@@ -824,6 +898,18 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/app/lib/reddit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+>>>>>>> f487e07036a68e4551de13c338a561baaf048e16
+          <folding />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> 331ec0ae286e703528abd874d261b8c6856e4ee3
     <entry file="file://$PROJECT_DIR$/app/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-450">
