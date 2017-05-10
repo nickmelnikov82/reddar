@@ -96,7 +96,7 @@ create_body= {
     }
 }
 
-# es.indices.delete(index="my_index")
+es.indices.delete(index="my_index")
 es.indices.create(index='my_index',body=create_body)
 actions=[
     {
@@ -105,7 +105,6 @@ actions=[
         "_id": k,
         "_source": {
             "author": v['author'],
-            "replies": v['replies'],
             "title": v['title'],
             "score": v['score'],
             "time": v['time'],
@@ -173,7 +172,7 @@ create_body2= {
         }
     }
 }
-# es.indices.delete(index='my_index1')
+es.indices.delete(index='my_index1')
 es.indices.create(index='my_index1',body=create_body2)
 actions=[
     {

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Reddar.iml" filepath="$PROJECT_DIR$/.idea/Reddar.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/reddit/.idea/reddit.iml" filepath="$USER_HOME$/PycharmProjects/reddit/.idea/reddit.iml" />
     </modules>
   </component>
 </project>

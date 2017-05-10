@@ -266,8 +266,8 @@ def search():
         hits_reddit.sort(key=lambda x:x['_source']['time'],reverse=True)
         hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
     elif sort==2:
-        hits_reddit.sort(key=lambda x: x['_source']['time'], reverse=True)
-        hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
+        hits_reddit.sort(key=lambda x: x['_source']['score'], reverse=True)
+        hits_replies.sort(key=lambda x: x['_source']['score'], reverse=True)
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
@@ -278,11 +278,12 @@ def search():
         red_id=hit['path'][0]
         source=get_reddit(red_id)
         source=source['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
-                          datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                          source['author'],reply['id'],reply['depth'])
+        new_reddit=Reddit(reply['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
+                          datetime.datetime.fromtimestamp(int(reply['time'])).strftime('%Y-%m-%d %H:%M:%S'),
+                          reply['author'],reply['id'],reply['depth'])
         reddits.append(new_reddit)
-
+    for r in reddits:
+        print r.time
     if request.args.get('ajax') == "1":
         # print (page % (int(math.ceil(len(reddits) / 10))) * 10)
         # print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
