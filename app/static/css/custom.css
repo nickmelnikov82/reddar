@@ -245,3 +245,28 @@ a:visted{
     font-style: italic;
     margin-bottom: 40px;
 }
+
+.last{
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 10px;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.section-divider{
+    color: white;
+    margin-left: 30px;
+    border-width: 5px;
+    width: 10%;
+    margin-bottom: 20px;
+    border-style: solid;
+}
+
+.section-label{
+        color: white;
+    margin-left: 30px;
+    font-size: 25px;
+    font-weight: bold;
+}

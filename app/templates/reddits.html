@@ -17,12 +17,14 @@
         <div class="section row">
             <div class="col-md-12">
                {% if reddit.reply_id == 0  %}
-               <a class="col-sm-12 btn btn-default">Back To Last Layer</a>
+               <a class="col-sm-12 btn btn-default last">Back</a>
                {% endif %}
                {% with args = {"reddit" : reddit, "style" : 1} %}
                {% include "reddit.html"%}
                {% endwith %}
            </div>
+           <div class="section-label">Replies : </div>
+           <hr class="section-divider">
            <!-- Small button group --> 
            <div class="col-md-11 col-md-offset-1">
             <div class="reddits js-masonry scroll" id="container">
