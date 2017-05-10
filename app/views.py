@@ -266,8 +266,8 @@ def search():
         hits_reddit.sort(key=lambda x:x['_source']['time'],reverse=True)
         hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
     elif sort==2:
-        hits_reddit.sort(key=lambda x: x['_source']['time'], reverse=True)
-        hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
+        hits_reddit.sort(key=lambda x: x['_source']['score'], reverse=True)
+        hits_replies.sort(key=lambda x: x['_source']['score'], reverse=True)
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
@@ -284,9 +284,11 @@ def search():
                           source['author'],reply['id'],reply['depth'])
         reddits.append(new_reddit)
 
+    print len(reddits)
+
     if request.args.get('ajax') == "1":
-        # print (page % (int(math.ceil(len(reddits) / 10))) * 10)
-        # print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10)
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
         return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10))) * 10) + 10])
     else:
         return render_template('search.html', reddits=reddits[0:10], page= 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)

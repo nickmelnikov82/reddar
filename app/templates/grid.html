@@ -1,19 +1,19 @@
 {% if reddit.reply_id == 0  %}
 <div class="grid-item grid-reddit">
-{% else %}
-<div class="grid-item grid-reply">
-{% endif %}
+	{% else %}
+	<div class="grid-item grid-reply">
+		{% endif %}
 		<div>
 			<div class="title"><a href="/reddit/{{reddit.id}}">
-			{% if reddit.reply_id == 0  %}
-			Reddit : 
-			{% else %}
-			Reply : 
-			{% endif %}
-			{{reddit.title[0:35]}}
-			{% if reddit.title|length > 35 %}
-			...
-			{% endif %}
+				{% if reddit.reply_id == 0  %}
+				Reddit : 
+				{% else %}
+				Reply : 
+				{% endif %}
+				{{reddit.title[0:35]}}
+				{% if reddit.title|length > 35 %}
+				...
+				{% endif %}
 			</a></div>
 			<hr>
 			<div class="body">
@@ -23,13 +23,13 @@
 			<div class="grid-footer col-sm-12">	    
 				<div class="col-sm-7 text-left">{{reddit.time}}</div>
 				<div class="col-sm-5 text-right"><a href="/author/{{reddit.author}}">
-				{{reddit.author[0:8]}}
-				{% if reddit.author|length > 8 %}
-				...
-				{% endif %}
+					{{reddit.author[0:8]}}
+					{% if reddit.author|length > 8 %}
+					...
+					{% endif %}
 				</a>
-				</div>
 			</div>
 		</div>
-		<!-- </a> -->
 	</div>
+	<!-- </a> -->
+</div>

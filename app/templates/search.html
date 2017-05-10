@@ -51,12 +51,16 @@
                 data: {"query": $("#query").val(),"page":0,"sort":$(this).val(),"ajax":1},
                 success: function(html){
                     if(html){
-                        var $elements = $( html );
+                        var $elements = $(html);
                         $("#page").val(parseInt($("#page").val()) + 1);
-                        $("#sort").val($(this).val());
-                        $('.grid').empty();
+                        // $("#sort").val($(this).val());
+                        var $ele = $(".grid-item");
+                        $('.grid').masonry('remove', $ele);
+                        
+
                         $('.grid').append($elements);
                         $('.grid').masonry( 'appended', $elements);
+                        $('.grid').masonry('layout');
                         $('div#loadmoreajaxloader').hide();
                     }else{
                         $('div#loadmoreajaxloader').html('<center>No more Result.</center>');
