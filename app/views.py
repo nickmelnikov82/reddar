@@ -253,9 +253,9 @@ def check_comment_detail(Id):
         reddits.append(reddit)
 
     if request.args.get('ajax') == "1":
-        return render_template('ajax_reddit.html',reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+        return render_template('ajax_reddit.html',reddits=reddits[(page * 10):(page * 10) + 10])
     else:
-        return render_template('reddits.html', id = id,reddit= reddit, reddits=reddits[0:10], page=page,total=math.ceil(len(reddits) / 10))
+        return render_template('reddits.html', id = id,reddit= reddit, reddits=reddits[0:10], page= 1,total=math.ceil(len(reddits) / 10))
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -283,9 +283,11 @@ def search():
         new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
         reddits.append(new_reddit)
     if request.args.get('ajax') == "1":
-        return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10)
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
+        return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10))) * 10) + 10])
     else:
-        return render_template('search.html', reddits=reddits[0:10], page=page + 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
+        return render_template('search.html', reddits=reddits[0:10], page= 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
 
 @app.route('/author/<id>', methods=['GET'])
 def author(id):
@@ -315,6 +317,8 @@ def author(id):
         reddits.append(reddit)
 
     if request.args.get('ajax') == "1":
-        return render_template('ajax_reddit.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10)
+        print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
+        return render_template('ajax_reddit.html', reddits=reddits[(page * 10):(page * 10) + 10])
     else:
-        return render_template('author.html', reddits=reddits[0:10], page = 0 , id = id, total=math.ceil(len(reddits) / 10))
+        return render_template('author.html', reddits=reddits[0:10], page = 1 , id = id, total=math.ceil(len(reddits) / 10))
