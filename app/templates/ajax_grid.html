@@ -1,0 +1,5 @@
+{% for reddit in reddits %}
+{% with reddit = reddit %}
+{% include "grid.html" %}
+{% endwith %}
+{% endfor %}

@@ -1,7 +1,9 @@
 from flask import *
 import urllib
 from app import app
-from lib.thread import Thread
+import math
+import HTMLParser
+import datetime
 from lib.reddit import Reddit
 from elasticsearch import Elasticsearch,client,helpers
 
@@ -194,9 +196,8 @@ def add_header(r):
 def index():
     return render_template('index.html')
 
-
-@app.route('/reddit/<id>')
-def check_thread_detail(id):
+@app.route('/reddit/<id>', methods=['GET'])
+def reddit(id):
     """
     :param posting: posting of a article
     :return: the content of this article
@@ -235,14 +236,26 @@ def check_comment_detail(Id):
         source=get_reply(['_source'])
         new_reply=Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
         children.append(new_reply)
-    # for i in range(100):
-    #     if i % 2 == 0:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-    #     else:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
 
     return render_template('thread.html',thread = reddit, comments = children)
 
+    if request.args.get('page'):
+        page = int(request.args.get('page'))
+    else:
+        page = 0
+
+    id = str(id)
+
+    reddit = Reddit(id,"This is a thread title !", "This is the abstract This is a threadThis is a threadThis is a reddit",123456,"Huiming Jia","1")
+    reddits = []
+    for i in range(50):
+        reddit = Reddit(i, "This is a thread title !","This is the abstract This is a threadThis is a threadThis is a reddit", 123456,"Huiming Jia", "1")
+        reddits.append(reddit)
+
+    if request.args.get('ajax') == "1":
+        return render_template('ajax_reddit.html',reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+    else:
+        return render_template('reddits.html', id = id,reddit= reddit, reddits=reddits[0:10], page=page,total=math.ceil(len(reddits) / 10))
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -260,58 +273,32 @@ def search():
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],source['selftext_html'],source['time'],source['author'],0)
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0)
         reddits.append(new_reddit)
     for hit in hits_replies:
         reply=hit['_source']
         red_id=hit['path'][0]
         source=get_reddit(red_id)
         source=source['_source']
-        new_reddit=Reddit(source['id'],source['title'],reply['body'],source['time'],source['author'],reply['id'])
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
         reddits.append(new_reddit)
-
-    # for i in range(100):
-    #     if i % 2 == 0:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-    #     else:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-
-
-
-    if page == 0:
-        return render_template('search.html', reddits=reddits[0:10], page=2, query=query, total = len(reddits)/10)
+    if request.args.get('ajax') == "1":
+        return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
     else:
-        return render_template('ajax.html', reddits=reddits[page * 10:page * 10 + 10])
+        return render_template('search.html', reddits=reddits[0:10], page=page + 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
 
-#
-# }
-#
-#
-#
-# def index(){
-# top 100 thread sort by time
-# }
-#
-# def search(query, sort = time){
-#
-# NLP process
-# search thread by query term
-# }
-#
-# def checkdetail(id){
-# get all comment with id as parent id
-# }
-#
-# def goback(id){
-#
-# get parent id
-#
-# checkdetail(parent id)
-#
-# }
-#
-# def searchauthor(author name){
-#
-# get thread by query =  name and sort by time
-#
-# }
+@app.route('/author/<id>', methods=['GET'])
+def author(id):
+    if request.args.get('page'):
+        page = int(request.args.get('page'))
+    else:
+        page = 0
+    reddits = []
+    for i in range(50):
+        reddit = Reddit(i, "This is a thread title !","This is the abstract This is a threadThis is a threadThis is a reddit", 123456,"Huiming Jia", "1")
+        reddits.append(reddit)
+
+    if request.args.get('ajax') == "1":
+        return render_template('ajax_reddit.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+    else:
+        return render_template('author.html', reddits=reddits[0:10], page = 0 , id = id, total=math.ceil(len(reddits) / 10))

@@ -12,34 +12,35 @@
 
 <body>
     <div class="container">
-        <header id="jumbotron" class="text-center">
-            <h1>I AM A</h1>
-        </header>
-        <!-- Content Section-->
-        <section>
-            <div id="index_search_bar"">
-                <div class="row">
-                  <form class="col-sm-12 form" action="search" method="get">
-                    <div class="tn-group  col-sm-2">
-                        <select name="sort" class="form-control">
-                          <option value="0">Popularity</option>
-                          <option value="1">Comments</option>
-                      </select>
-                  </div>
-                  <div class="form-group input-group">
-                    <input type="text" class="form-control" name="query">
-                    <input type="hidden" class="form-control" name="page" value="0">
+        <div id="jumbotron">
+            <div class="form-group text-center">
+                <a href="/index">
+                    <img src="../static/img/icon.png" height="250" width="250">
+                </a>
+            </div>
+            <h1 class="text-center"">Reddar - "I AM A" <h2 class="text-center">-- Explore the colorful world</h2></h1>
+            <div id="index_search_bar text-center" style="padding-left: 25px;">
+            <form class="form" action="search" method="get">
+                <div class="form-group col-sm-2">
+                    <select name="sort" class="form-control" style="height: 50px;">
+                      <option value="0">Relevance</option>
+                      <option value="1">Time</option>
+                      <option value="2">Score</option>
+                  </select>
+              </div>
+              <div class="form-group input-group col-sm-5">
+                <input type="text" class="form-control" name="query" style="height: 50px;">
+                <input type="hidden" class="form-control" name="page" value="0">
 
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </span>
-                </div>
-            </form>
-        </div>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" style="height: 50px;">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
     </div>
-</section>
+</div>
 </div>
 <script src="../static/js/jquery.js"></script>
 <script src="../static/js/jquery.infinitescroll.min.js"></script>  

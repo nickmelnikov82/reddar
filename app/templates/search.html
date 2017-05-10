@@ -16,9 +16,10 @@
         <!-- Content Section-->
         <div class="section">
             <input type= "hidden" id = "page" value="{{page}}">
+            <input type= "hidden" id = "sort" value="{{sort}}">
             <input type= "hidden" id = "query" value="{{query}}">
             <input type= "hidden" id = "total" value="{{total}}">
-            <div class="grid js-masonry scroll" id="container">
+            <div class="reddits js-masonry" id="container">
                 {% for reddit in reddits %}
                 {% with reddit = reddit %}
                 {% include "grid.html" %}
@@ -32,7 +33,47 @@
     <script src="../static/js/jquery.infinitescroll.min.js"></script>  
     <script src="../static/js/bootstrap.js"></script>
     <script src="../static/js/masonry.pkgd.min.js"></script>
-    <script src="../static/js/custom.js"></script>>
+    <script src="../static/js/custom.js"></script>
+    <script type="text/javascript">
+            $('.reddits').masonry({
+              // set itemSelector so .grid-sizer is not used in layout
+              itemSelector: '.reddit-item ',
+              // use element for option
+              columnWidth: 600,
+              percentPosition: true,
+              transitionDuration: '0.2s',
+              isInitLayout: false
+          })
+        
+        $(window).scroll(function(){
+            if($(window).scrollTop() == $(document).height() - $(window).height()){
+                $('div#loadmoreajaxloader').show();
+                $.ajax({
+                    url: "search",
+                    data: {"query": $("#query").val(),"page":$("#page").val(),"sort":$("#sort").val(),"ajax":1},
+                    success: function(html){
+                        if(html){
+                            var $elements = $( html );
+                    // if((parseInt($("#page").val()) + 1) / parseInt($("#total").val())){
+                    //  $("#page").val(0);
+                    // }else{
+                        
+
+                    // }
+                    $("#page").val(parseInt($("#page").val()) + 1);
+                    $('.grid').append($elements)
+                    $('.grid').masonry( 'appended', $elements);
+                    $('div#loadmoreajaxloader').hide();
+                }else{
+
+                    alert("failure");
+                    $('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
+                }
+            }
+        });
+            }
+        });
+    </script>>
     <!-- Footer -->
 </body>
 </html>
