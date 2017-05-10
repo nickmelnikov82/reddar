@@ -202,6 +202,7 @@ def reddit(id):
     :param posting: posting of a article
     :return: the content of this article
     """
+    para = str(id)
     hit = get_reddit(id)
     source = hit['_source']
     reddit = Reddit(source['id'], source['title'], source['selftext_html'], source['time'], source['author'], 0)
@@ -210,18 +211,23 @@ def reddit(id):
     for id in replies:
         source = get_reply(id)['_source']
         new_reply = Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
-        print source['body']
+        # print source['body']
         children.append(new_reply)
-    # for i in range(100):
-    #     if i % 2 == 0:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-    #     else:
-    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
 
-    return render_template('thread.html', thread=reddit, comments=children)
+    if request.args.get('page'):
+        page = int(request.args.get('page'))
+    else:
+        page = 0
 
-@app.route('/comment/<Id>')
-def check_comment_detail(Id):
+    print len(children)
+
+    if request.args.get('ajax') == "1":
+        return render_template('ajax_reddit.html', reddits=children[(page * 5):(page * 5) + 5])
+    else:
+        return render_template('reddits.html', id=para, reddit=reddit, reddits=children[0:5], page=1,total=math.ceil(len(children) / 5))
+
+@app.route('/reply/<id>')
+def reply(id):
     """
     :param posting: posting of a article
     :return: the content of this article
@@ -237,31 +243,23 @@ def check_comment_detail(Id):
         new_reply=Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
         children.append(new_reply)
 
-    return render_template('thread.html',thread = reddit, comments = children)
-
     if request.args.get('page'):
         page = int(request.args.get('page'))
     else:
         page = 0
 
-    id = str(id)
-
-    reddit = Reddit(id,"This is a thread title !", "This is the abstract This is a threadThis is a threadThis is a reddit",123456,"Huiming Jia","1")
-    reddits = []
-    for i in range(50):
-        reddit = Reddit(i, "This is a thread title !","This is the abstract This is a threadThis is a threadThis is a reddit", 123456,"Huiming Jia", "1")
-        reddits.append(reddit)
-
     if request.args.get('ajax') == "1":
-        return render_template('ajax_reddit.html',reddits=reddits[(page * 10):(page * 10) + 10])
+        return render_template('ajax_reddit.html', reddits=children[(page * 10):(page * 10) + 10])
     else:
-        return render_template('reddits.html', id = id,reddit= reddit, reddits=reddits[0:10], page= 1,total=math.ceil(len(reddits) / 10))
+        return render_template('reddits.html', id=id, reddit=reddit, reddits=children[0:10], page=1,total=math.ceil(len(children) / 10))
+
 
 @app.route('/search', methods=['GET'])
 def search():
     query = str(request.args.get('query')).strip()
     page = int(request.args.get('page'))
     sort=int(request.args.get('sort'))
+
     hits_reddit=text_search_reddit(query)
     hits_replies=text_search_replies(query)
     if sort==1:
@@ -282,6 +280,7 @@ def search():
         source=source['_source']
         new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
         reddits.append(new_reddit)
+
     if request.args.get('ajax') == "1":
         print (page % (int(math.ceil(len(reddits) / 10))) * 10)
         print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
