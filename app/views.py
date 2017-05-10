@@ -262,22 +262,22 @@ def search():
     hits_reddit=text_search_reddit(query)
     hits_replies=text_search_replies(query)
     if sort==1:
-        hits_reddit.sort(key=lambda x:x._source.time,reversed=True)
-        hits_replies.sort(key=lambda x: x._source.time, reversed=True)
+        hits_reddit.sort(key=lambda x:x._source.time,reverse=True)
+        hits_replies.sort(key=lambda x: x._source.time, reverse=True)
     elif sort==2:
-        hits_reddit.sort(key=lambda x: x._source.score, reversed=True)
-        hits_replies.sort(key=lambda x: x._source.score, reversed=True)
+        hits_reddit.sort(key=lambda x: x._source.score, reverse=True)
+        hits_replies.sort(key=lambda x: x._source.score, reverse=True)
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0)
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0,-1)
         reddits.append(new_reddit)
     for hit in hits_replies:
         reply=hit['_source']
         red_id=hit['path'][0]
         source=get_reddit(red_id)
         source=source['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'],0)
         reddits.append(new_reddit)
 
     if request.args.get('ajax') == "1":
