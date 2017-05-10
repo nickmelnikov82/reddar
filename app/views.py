@@ -281,6 +281,7 @@ def search():
         new_reddit=Reddit(reply['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
                           datetime.datetime.fromtimestamp(int(reply['time'])).strftime('%Y-%m-%d %H:%M:%S'),
                           reply['author'],reply['id'],reply['depth'])
+
         reddits.append(new_reddit)
     for r in reddits:
         print r.time

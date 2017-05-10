@@ -39,3 +39,4 @@ $('.reddits').masonry({
       transitionDuration: '0.2s',
       isInitLayout: false
   })
+
