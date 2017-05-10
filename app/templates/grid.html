@@ -22,10 +22,12 @@
 			<hr>
 			<div class="grid-footer col-sm-12">	    
 				<div class="col-sm-7 text-left">{{reddit.time}}</div>
-				<div class="col-sm-5 text-right">{{reddit.author[0:8]}}
+				<div class="col-sm-5 text-right"><a href="/author/{{reddit.author}}">
+				{{reddit.author[0:8]}}
 				{% if reddit.author|length > 8 %}
 				...
 				{% endif %}
+				</a>
 				</div>
 			</div>
 		</div>
