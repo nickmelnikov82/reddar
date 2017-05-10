@@ -1,7 +1,9 @@
 import json
 from types import *
+import copy
 
 def sub(js):
+    # thin the original data, remove useless data
     res={}
     js=js['data']
     res['author'] = js.get('author','')
@@ -33,7 +35,25 @@ def sub(js):
     return res;
 
 
-
+def fla(js):
+    # flatten the replies part using recursion, discard those abnormal replies
+    if type(js) is StringType:
+        return
+    for re in js:
+        if type(re) is not DictType:
+            continue
+        for k,v in re.iteritems():
+            r=copy.deepcopy(v)
+            try:
+                r.pop('replies',None)
+            except:
+                continue
+            rep.append(r)
+            try:
+                fla(re['replies'])
+            except:
+                print re
+    return
 
 
 with open('rawdata.txt') as data_file:
@@ -61,3 +81,33 @@ for k,v in data.iteritems():
 
 with open('data.txt','w') as outfile:
     json.dump(output,outfile,sort_keys=True);
+
+
+
+
+
+#flatten replies
+data=output
+count=1
+replies={}
+output={}
+rep=[]
+for k,v in data.iteritems():
+    red={}
+    rep=[]
+    red=copy.deepcopy(v)
+    fla(v['replies'])
+    red['replies']=rep
+    output[k]=red
+for k,v in output.iteritems():
+    reply=v['replies']
+    for r in reply:
+        replies[count]=r
+        count=count+1
+
+
+with open('data_flattened.txt','w') as outfile:
+    json.dump(output,outfile,sort_keys=True);
+
+with open('replies.txt','w') as outfile:
+    json.dump(replies,outfile,sort_keys=True);
