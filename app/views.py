@@ -215,37 +215,20 @@ def search():
     if request.args.get('ajax') == "1":
         return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
     else:
-        return render_template('search.html', reddits=reddits[0:10], page=page + 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
+        return render_template('search.html', reddits=reddits[0:10], page = page + 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
 
-#
-# }
-#
-#
-#
-# def index(){
-# top 100 thread sort by time
-# }
-#
-# def search(query, sort = time){
-#
-# NLP process
-# search thread by query term
-# }
-#
-# def checkdetail(id){
-# get all comment with id as parent id
-# }
-#
-# def goback(id){
-#
-# get parent id
-#
-# checkdetail(parent id)
-#
-# }
-#
-# def searchauthor(author name){
-#
-# get thread by query =  name and sort by time
-#
-# }
+@app.route('/author/<id>', methods=['GET'])
+def author(id):
+    if request.args.get('page'):
+        page = int(request.args.get('page'))
+    else:
+        page = 0
+    reddits = []
+    for i in range(50):
+        reddit = Reddit(i, "This is a thread title !","This is the abstract This is a threadThis is a threadThis is a reddit", 123456,"Huiming Jia", "1")
+        reddits.append(reddit)
+
+    if request.args.get('ajax') == "1":
+        return render_template('ajax_reddit.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10)) * 10) + 10)])
+    else:
+        return render_template('author.html', reddits=reddits[0:10], page = 0 , id = id, total=math.ceil(len(reddits) / 10))
