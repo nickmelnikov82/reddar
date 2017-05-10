@@ -19,9 +19,16 @@
                 <input type= "hidden" id = "id" value="{{id}}">
                 <input type= "hidden" id = "page" value="{{page}}">
                 {% for reddit in reddits %}
-                {% with args = {"reddit" : reddit, "style" : 0} %}
-                {% include "reddit.html"  %}
-                {% endwith %}
+                    {% if reddit.depth == -1 %}
+                    {% with args = {"reddit" : reddit, "style" : 1} %}
+                    {% include "reddit.html"  %}
+                    {% endwith %}
+                    {% elif reddit.depth > -1 %}
+                    {% with args = {"reddit" : reddit, "style" : 0} %}
+                    {% include "reddit.html"  %}
+                    {% endwith %}
+                    {% endif %}
+
                 {% endfor %}
              </div>
             <div id="loadmoreajaxloader" style="display:none;"><center><img src="../static/img/ajax-loader.gif" /></center></div>

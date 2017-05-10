@@ -16,9 +16,12 @@
         <!-- Content Section-->
         <div class="section row">
             <div class="col-md-12">
-               {% if reddit.reply_id == 0  %}
-               <a class="col-sm-12 btn btn-default last">Back</a>
+               {% if reddit.depth >= 0  %}
+               <a class="col-sm-12 btn btn-default last" href="/reply/{{args['reddit'].parent_id}}">Back</a>
+               {% elif reddit.depth == 0  %}
+               <a class="col-sm-12 btn btn-default last" href="/reddit/{{args['reddit'].parent_id}}">Back</a>
                {% endif %}
+
                {% with args = {"reddit" : reddit, "style" : 1} %}
                {% include "reddit.html"%}
                {% endwith %}

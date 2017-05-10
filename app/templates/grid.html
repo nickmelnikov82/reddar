@@ -1,20 +1,23 @@
-{% if reddit.reply_id == 0  %}
+{% if reddit.depth == -1  %}
 <div class="grid-item grid-reddit">
 	{% else %}
 	<div class="grid-item grid-reply">
 		{% endif %}
 		<div>
-			<div class="title"><a href="/reddit/{{reddit.id}}">
-				{% if reddit.reply_id == 0  %}
+			<div class="title">
+				{% if reddit.depth == -1  %}
+				<a href="/reddit/{{reddit.id}}">
 				Reddit : 
 				{% else %}
+				<a href="/reply/{{reddit.id}}">
 				Reply : 
 				{% endif %}
 				{{reddit.title[0:35]}}
 				{% if reddit.title|length > 35 %}
 				...
 				{% endif %}
-			</a></div>
+			</a>
+			</div>
 			<hr>
 			<div class="body">
 				{{reddit.body|safe}}

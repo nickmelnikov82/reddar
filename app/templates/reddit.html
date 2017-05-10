@@ -13,7 +13,7 @@
 			{% if args["style"] == 1  %}
 			<p>{{args["reddit"].body | safe}}</p>
 			{% else %}
-			<a href="/reddit/{{args['reddit'].id}}">
+			<a href="/reply/{{args['reddit'].id}}">
 				<p>{{args["reddit"].body | safe}}</p>
 			</a>
 				
