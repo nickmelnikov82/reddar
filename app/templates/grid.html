@@ -1,20 +1,33 @@
-{% if reddit.body|length > 200 %}
-<div class="grid-item grid-item--height2">
+{% if reddit.reply_id == 0  %}
+<div class="grid-item grid-reddit">
 {% else %}
-<div class="grid-item">
+<div class="grid-item grid-reply">
 {% endif %}
-	<div>
-		<div class="title"><a href="/reddit/{{reddit.Id}}">Reddit : {{reddit.title[0:50]}}</a></div>
-		<hr>
-		<div class="body"><a href="/reddit/{{reddit.id}}">
-			<p>{{reddit.body}}</p></a>
-
+		<div>
+			<div class="title"><a href="/reddit/{{reddit.id}}">
+			{% if reddit.reply_id == 0  %}
+			Reddit : 
+			{% else %}
+			Reply : 
+			{% endif %}
+			{{reddit.title[0:35]}}
+			{% if reddit.title|length > 35 %}
+			...
+			{% endif %}
+			</a></div>
+			<hr>
+			<div class="body">
+				{{reddit.body|safe}}
+			</div>
+			<hr>
+			<div class="grid-footer col-sm-12">	    
+				<div class="col-sm-7 text-left">{{reddit.time}}</div>
+				<div class="col-sm-5 text-right">{{reddit.author[0:8]}}
+				{% if reddit.author|length > 8 %}
+				...
+				{% endif %}
+				</div>
+			</div>
 		</div>
-		<hr>
-		<div class="grid-footer col-sm-12">	    
-			<div class="col-sm-6">{{reddit.time}}</div>
-			<div class="col-sm-6">{{reddit.author}}</div>
-		</div>
+		<!-- </a> -->
 	</div>
-<!-- </a> -->
-</div>

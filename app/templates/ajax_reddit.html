@@ -1,0 +1,5 @@
+{% for reddit in reddits %}
+{% with args = {"reddit" : reddit, "style" : 0} %}
+{% include "reddit.html"  %}
+{% endwith %}
+{% endfor %}

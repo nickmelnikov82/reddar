@@ -1,0 +1,18 @@
+{% if args["style"] == 0 %}
+<div class="reddit-item comment1">
+{% else %}
+<div class="reddit-item comment2">
+{% endif %}
+	<div>
+		<div class="title"><a href="/reddit/{{args['reddit'].id}}">{{args["reddit"].id}} {{args["reddit"].title[0:50]}}</a></div>
+		<hr>
+		<div class="body"><a href="/reddit/{{args['reddit'].id}}">
+			<p>{{args["reddit"].body}}</p></a>
+		</div>
+		<hr>
+		<div class="col-sm-12">	    
+			<div class="col-sm-8">Submit time : {{args["reddit"].time}}</div>
+			<div class="col-sm-4 text-right">User : {{args["reddit"].author}}</div>
+		</div>
+	</div>
+</div>

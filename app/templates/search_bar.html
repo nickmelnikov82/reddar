@@ -1,19 +1,28 @@
 <div class="search_bar">
-    <div class="tn-group  col-sm-2">
-        <select name="genre" class="form-control">
-          <option value="popularity">Popularity</option>
-          <option value="comment">Comments</option>
-        </select>
-    </div>
-    <form class="col-sm-10 form" action="search" method="get">
-        <div class="form-group input-group">
-            <input type="text" class="form-control" name="query">
-            <input type="hidden" class="form-control" name="page" value="1">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-            </span>
+    <form class="col-sm-12 form" action="search" method="get">
+        <div class="form-group col-sm-1 text-center"><a href="/index">
+            <img src="../static/img/icon.png" height="80" width="80">
+            </a>
         </div>
-    </form>
+
+        <div class="col-sm-11" style="padding-top: 20px;">
+          <div class="form-group col-sm-3">
+            <select name="sort" class="form-control">
+              <option value="0">Relevance</option>
+              <option value="1">Time</option>
+              <option value="2">Score</option>
+          </select>
+      </div>
+      <div class="form-group col-sm-9 form-group input-group">
+        <input type="text" class="form-control" name="query">
+        <input type="hidden" class="form-control" name="page" value="0">
+
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </div>
+</div>
+</form>
 </div>
