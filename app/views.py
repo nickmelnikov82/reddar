@@ -258,15 +258,16 @@ def search():
     query = str(request.args.get('query')).strip()
     page = int(request.args.get('page'))
     sort=int(request.args.get('sort'))
-
+    print sort
+    print 1234
     hits_reddit=text_search_reddit(query)
     hits_replies=text_search_replies(query)
     if sort==1:
-        hits_reddit.sort(key=lambda x:x._source.time,reversed=True)
-        hits_replies.sort(key=lambda x: x._source.time, reversed=True)
+        hits_reddit.sort(key=lambda x:x['_source']['time'],reverse=True)
+        hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
     elif sort==2:
-        hits_reddit.sort(key=lambda x: x._source.score, reversed=True)
-        hits_replies.sort(key=lambda x: x._source.score, reversed=True)
+        hits_reddit.sort(key=lambda x: x['_source']['time'], reverse=True)
+        hits_replies.sort(key=lambda x: x['_source']['time'], reverse=True)
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
@@ -283,8 +284,8 @@ def search():
         reddits.append(new_reddit)
 
     if request.args.get('ajax') == "1":
-        print (page % (int(math.ceil(len(reddits) / 10))) * 10)
-        print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
+        # print (page % (int(math.ceil(len(reddits) / 10))) * 10)
+        # print (page % (int(math.ceil(len(reddits) / 10))) * 10) + 10
         return render_template('ajax_grid.html', reddits=reddits[(page % (int(math.ceil(len(reddits) / 10))) * 10):(page % (int(math.ceil(len(reddits) / 10))) * 10) + 10])
     else:
         return render_template('search.html', reddits=reddits[0:10], page= 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
@@ -297,9 +298,9 @@ def author(id):
         page = 0
     reddits = []
     reddits_hits=search_author_reddit(id)
-    reddits_hits.sort(key=lambda x:x._source.time,reversed=True)
+    reddits_hits.sort(key=lambda x:x['_source']['time'],reverse=True)
     replies_hits=search_author_replies(id)
-    replies_hits.sort(key=lambda x:x._source.time,reversed=True)
+    replies_hits.sort(key=lambda x:x['_source']['time'],reverse=True)
     for hit in reddits_hits:
         source=hit['_source']
         new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
