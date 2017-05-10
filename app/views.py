@@ -31,7 +31,7 @@ def search_author_reddit(author):
 
 def get_reply_children(id):
     body = {
-        "size": 1,
+        "size": 300,
         "query": {
             "bool": {
                 "must": [
@@ -249,12 +249,12 @@ def reddit(id):
     para = str(id)
     hit = get_reddit(id)
     source = hit['_source']
-    reddit = Reddit(source['id'], source['title'], HTMLParser.HTMLParser().unescape(source['selftext_html']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0 , -1)
+    reddit = Reddit(source['id'], source['title'], HTMLParser.HTMLParser().unescape(source['selftext_html']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0 , -1,source['score'])
     replies = get_reply_children(source['id'])
     children = []
     for id in replies:
         source = get_reply(id)[0]['_source']
-        new_reply = Reddit(source['id'], '', source['body'], datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,0)
+        new_reply = Reddit(source['id'], '', source['body'], datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,0,source['score'])
         children.append(new_reply)
 
     if request.args.get('page'):
@@ -278,12 +278,12 @@ def reply(id):
     source=get_reply(id)[0]
     title=get_reddit(source['path'][0])['_source']['title']
     source=source['_source']
-    reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'],source['parent'])
+    reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(source['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'],source['score'],source['parent'])
     replies= get_reply_children(id)
     children=[]
     for id in replies:
-        source=get_reply(id)['_source']
-        new_reply=Reddit(source['id'], '', HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,source['depth'],source['parent'])
+        source=get_reply(id)[0]['_source']
+        new_reply=Reddit(source['id'], '', HTMLParser.HTMLParser().unescape(source['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,source['depth'],source['score'],source['parent'])
         children.append(new_reply)
 
     if request.args.get('page'):
@@ -315,7 +315,7 @@ def search():
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0,-1)
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0,-1,source['score'])
         reddits.append(new_reddit)
     for hit in hits_replies:
         reply=hit['_source']
@@ -324,7 +324,7 @@ def search():
         source=source['_source']
         new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
                           datetime.datetime.fromtimestamp(int(reply['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                          reply['author'],reply['id'],reply['depth'])
+                          reply['author'],reply['id'],reply['depth'],reply['score'])
 
         reddits.append(new_reddit)
 
@@ -351,7 +351,7 @@ def author(id):
         new_reddit=Reddit(source['id'],source['title'],
                           HTMLParser.HTMLParser().unescape(source['body']),
                           datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                          source['author'],source['id'],-1)
+                          source['author'],source['id'],-1,source['score'])
         reddits.append(new_reddit)
     for hit in replies_hits:
         print hit
@@ -360,7 +360,7 @@ def author(id):
         new_reddit = Reddit(source['id'], title,
                             HTMLParser.HTMLParser().unescape(source['body']),
                             datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                            source['author'], source['id'],source['depth'])
+                            source['author'], source['id'],source['depth'],source['score'])
         reddits.append(new_reddit)
 
     if request.args.get('ajax') == "1":

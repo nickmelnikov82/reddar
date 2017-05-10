@@ -1,5 +1,5 @@
 class Reddit:
-    def __init__(self, id, title, body, time, author,reply_id,depth,parent_id=0):
+    def __init__(self, id, title, body, time, author,reply_id,depth,score,parent_id=0):
         self.id = id;
         self.title = title
         self.body = body
@@ -8,6 +8,7 @@ class Reddit:
         self.reply_id=reply_id
         self.depth=depth
         self.parent_id=parent_id
+        self.score=score
 
     def setComment(self, comments):
         self.comments = []
