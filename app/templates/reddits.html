@@ -16,59 +16,59 @@
         <!-- Content Section-->
         <div class="section row">
             <div class="col-md-12">
-                {% with args = {"reddit" : reddit, "style" : 1} %}
-                {% include "reddit.html"%}
+               {% if reddit.reply_id == 0  %}
+               <a class="col-sm-12 btn btn-default">Back To Last Layer</a>
+               {% endif %}
+               {% with args = {"reddit" : reddit, "style" : 1} %}
+               {% include "reddit.html"%}
+               {% endwith %}
+           </div>
+           <!-- Small button group --> 
+           <div class="col-md-11 col-md-offset-1">
+            <div class="reddits js-masonry scroll" id="container">
+                <input type= "hidden" id = "id" value="{{id}}">
+                <input type= "hidden" id = "page" value="{{page}}">
+                {% for reddit in reddits %}
+                {% with args = {"reddit" : reddit, "style" : 0} %}
+                {% include "reddit.html"  %}
                 {% endwith %}
+                {% endfor %}
             </div>
-            <!-- Small button group --> 
-            <div class="col-md-11 col-md-offset-1">
-                        {% if reddit.reply_id == 0  %}
-            <a class="col-sm-12 btn btn-default">Back To Last Layer</a>
-            {% endif %}
-                <div class="reddits js-masonry scroll" id="container">
-                    <input type= "hidden" id = "id" value="{{id}}">
-                    <input type= "hidden" id = "page" value="{{page}}">
-                    {% for reddit in reddits %}
-                    {% with args = {"reddit" : reddit, "style" : 0} %}
-                    {% include "reddit.html"  %}
-                    {% endwith %}
-                    {% endfor %}
-                </div>
-                <div id="loadmoreajaxloader" style="display:none;"><center><img src="../static/img/ajax-loader.gif" /></center></div>
-            </div>
+            <div id="loadmoreajaxloader" style="display:none;"><center><img src="../static/img/ajax-loader.gif" /></center></div>
         </div>
     </div>
-    <!-- Footer -->
-    <script src="../static/js/jquery.js"></script>
-    <script src="../static/js/jquery.infinitescroll.min.js"></script>  
-    <script src="../static/js/bootstrap.js"></script>
-    <script src="../static/js/masonry.pkgd.min.js"></script>
-    <script src="../static/js/custom.js"></script>>
-    <script type="text/javascript">
+</div>
+<!-- Footer -->
+<script src="../static/js/jquery.js"></script>
+<script src="../static/js/jquery.infinitescroll.min.js"></script>  
+<script src="../static/js/bootstrap.js"></script>
+<script src="../static/js/masonry.pkgd.min.js"></script>
+<script src="../static/js/custom.js"></script>>
+<script type="text/javascript">
 
-        $(window).scroll(function(){
-            if($(window).scrollTop() == $(document).height() - $(window).height()){
-                $('div#loadmoreajaxloader').show();
-                $.ajax({
-                    url: "/reddit/"+$("#id").val(),
-                    data: {"page":$("#page").val(),"ajax":1},
-                    success: function(html){
-                        if(html){var $elements = $( html );
-                            $("#page").val(parseInt($("#page").val()) + 1);
-                            $('.reddits').append($elements)
-                            $('.reddits').masonry( 'appended', $elements);
-                            $('div#loadmoreajaxloader').hide();
-                        }else{
-                            $('div#loadmoreajaxloader').html('<center><div style="font-size:15px;"class="label label-default">No more Reddit to show.</div></center>');
-                            $(window).scroll(function() {
+    $(window).scroll(function(){
+        if($(window).scrollTop() == $(document).height() - $(window).height()){
+            $('div#loadmoreajaxloader').show();
+            $.ajax({
+                url: "/reddit/"+$("#id").val(),
+                data: {"page":$("#page").val(),"ajax":1},
+                success: function(html){
+                    if(html){var $elements = $( html );
+                        $("#page").val(parseInt($("#page").val()) + 1);
+                        $('.reddits').append($elements)
+                        $('.reddits').masonry( 'appended', $elements);
+                        $('div#loadmoreajaxloader').hide();
+                    }else{
+                        $('div#loadmoreajaxloader').html('<center><div style="font-size:15px;"class="label label-default">No more Reddit to show.</div></center>');
+                        $(window).scroll(function() {
                                 // body...
                             });
 
-                        }
                     }
-                });
-            }
-        });
-    </script>
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>
