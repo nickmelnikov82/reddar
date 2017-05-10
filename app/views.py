@@ -217,35 +217,6 @@ def search():
     else:
         return render_template('search.html', reddits=reddits[0:10], page=page + 1, query=query,total=math.ceil(len(reddits) / 10), sort=sort)
 
-#
-# }
-#
-#
-#
-# def index(){
-# top 100 thread sort by time
-# }
-#
-# def search(query, sort = time){
-#
-# NLP process
-# search thread by query term
-# }
-#
-# def checkdetail(id){
-# get all comment with id as parent id
-# }
-#
-# def goback(id){
-#
-# get parent id
-#
-# checkdetail(parent id)
-#
-# }
-#
-# def searchauthor(author name){
-#
-# get thread by query =  name and sort by time
-#
-# }
+
+@app.route('/author/<id>', methods=['GET'])
+def author(id):
