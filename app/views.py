@@ -24,7 +24,26 @@ def search_author_reddit(author):
         }
     }
     ret = es.search(index='my_index', doc_type="my_reddit", body=body)
-    return ret['hits']['hits'][0]['_source']['parent']
+    return ret['hits']['hits']
+
+def get_reply_children(id):
+    body = {
+        "query": {
+            "bool": {
+                "must": [
+                    {"match": {
+                        "parent":id
+                        }
+                    }
+                ]
+            }
+        }
+    }
+    ret=es.search(index='my_index1',doc_type="my_replies", body=body)
+    r=[]
+    for n in ret['hits']['hits']:
+        r.append(n['_source']['id'])
+    return r
 
 def search_author_replies(author):
     body = {
@@ -45,9 +64,23 @@ def search_author_replies(author):
         }
     }
     ret = es.search(index='my_index1', doc_type="my_replies", body=body)
-    return ret['hits']['hits'][0]['_source']['parent']
+    return ret['hits']['hits']
 
-
+def get_reply(id):
+    body = {
+        "query": {
+            "bool": {
+                "must": [
+                    {"match": {
+                        "id":id
+                        }
+                    }
+                ]
+            }
+        }
+    }
+    ret=es.search(index='my_index1',doc_type="my_replies", body=body)
+    return ret['hits']['hits'][0]
 
 def search_parent(id):
     body = {
@@ -162,20 +195,29 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/thread/<Id>')
-def check_thread_detail(Id):
+@app.route('/reddit/<id>')
+def check_thread_detail(id):
     """
     :param posting: posting of a article
     :return: the content of this article
     """
-    threads = []
-    for i in range(100):
-        if i % 2 == 0:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-        else:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-        threads.append(thread)
-    return render_template('thread.html',thread = thread, comments = threads[1:20])
+    hit = get_reddit(id)
+    source = hit['_source']
+    reddit = Reddit(source['id'], source['title'], source['selftext_html'], source['time'], source['author'], 0)
+    replies = get_reply_children(source['id'])
+    children = []
+    for id in replies:
+        source = get_reply(id)['_source']
+        new_reply = Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
+        print source['body']
+        children.append(new_reply)
+    # for i in range(100):
+    #     if i % 2 == 0:
+    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
+    #     else:
+    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
+
+    return render_template('thread.html', thread=reddit, comments=children)
 
 @app.route('/comment/<Id>')
 def check_comment_detail(Id):
@@ -183,15 +225,23 @@ def check_comment_detail(Id):
     :param posting: posting of a article
     :return: the content of this article
     """
-    threads = []
-    for i in range(100):
-        if i % 2 == 0:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
-        else:
-            thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
+    hit=get_reddit(id)
+    parent_id=search_parent(id)
+    source=get_reply(parent_id)['_source']
+    reddit = Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
+    replies=get_reply_children(parent_id)
+    children=[]
+    for id in replies:
+        source=get_reply(['_source'])
+        new_reply=Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
+        children.append(new_reply)
+    # for i in range(100):
+    #     if i % 2 == 0:
+    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
+    #     else:
+    #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
 
-    threads.append(thread)
-    return render_template('thread.html',parent = thread, children = threads[1:20])
+    return render_template('thread.html',thread = reddit, comments = children)
 
 
 @app.route('/search', methods=['GET'])
