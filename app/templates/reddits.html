@@ -22,6 +22,9 @@
             </div>
             <!-- Small button group --> 
             <div class="col-md-11 col-md-offset-1">
+                        {% if reddit.reply_id == 0  %}
+            <a class="col-sm-12 btn btn-default">Back To Last Layer</a>
+            {% endif %}
                 <div class="reddits js-masonry scroll" id="container">
                     <input type= "hidden" id = "id" value="{{id}}">
                     <input type= "hidden" id = "page" value="{{page}}">
