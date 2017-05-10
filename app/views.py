@@ -279,11 +279,14 @@ def reply(id):
     title=get_reddit(source['path'][0])['_source']['title']
     source=source['_source']
     reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(source['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'],source['score'],source['parent'])
+
     replies= get_reply_children(id)
     children=[]
     for id in replies:
         source=get_reply(id)[0]['_source']
+
         new_reply=Reddit(source['id'], '', HTMLParser.HTMLParser().unescape(source['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,source['depth'],source['score'],source['parent'])
+
         children.append(new_reply)
 
     if request.args.get('page'):
