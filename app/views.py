@@ -275,7 +275,7 @@ def reply(id):
     :param posting: posting of a article
     :return: the content of this article
     """
-    source=get_reply(id)
+    source=get_reply(id)[0]
     title=get_reddit(source['path'][0])['_source']['title']
     source=source['_source']
     reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'],source['parent'])
