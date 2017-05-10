@@ -30,9 +30,7 @@ def sub(js):
             res['replies'].append(sub(r))
     elif type(rep) is DictType:
         res['replies']=sub(rep);
-    m={}
-    m[res['id']]=res
-    return m;
+    return res;
 
 
 

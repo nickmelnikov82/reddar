@@ -6,16 +6,19 @@ def fla(js):
     if type(js) is StringType:
         return
     for re in js:
-        r=copy.deepcopy(re)
-        try:
-            r.pop('replies',None)
-        except:
+        if type(re) is not DictType:
             continue
-        rep.append(r)
-        try:
-            fla(re['replies'])
-        except:
-            print re
+        for k,v in re.iteritems():
+            r=copy.deepcopy(v)
+            try:
+                r.pop('replies',None)
+            except:
+                continue
+            rep.append(r)
+            try:
+                fla(re['replies'])
+            except:
+                print re
     return
 
 
