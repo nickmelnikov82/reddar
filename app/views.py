@@ -104,7 +104,25 @@ def get_reply(id):
         }
     }
     ret=es.search(index='my_index1',doc_type="my_replies", body=body)
-    return ret['hits']['hits'][0]
+    hits = ret['hits']['hits']
+    for hit in hits:
+        depth = hit['_source']['depth']
+        # print hit['_score']
+        hit['_score'] /= (depth + 1)
+        # print hit['_score']
+        path = []
+        id = hit['_source']['id']
+        path.insert(0, id)
+        # print 'hit:\n'
+        while depth >= 0:
+            parent = search_parent(id)
+            path.insert(0, parent)
+            id = parent
+            depth = depth - 1
+        # print path
+        hit['path'] = path
+        # print '\n\n'
+    return hits
 
 def search_parent(id):
     body = {
@@ -235,7 +253,7 @@ def reddit(id):
     replies = get_reply_children(source['id'])
     children = []
     for id in replies:
-        source = get_reply(id)['_source']
+        source = get_reply(id)[0]['_source']
         new_reply = Reddit(source['id'], '', source['body'], datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,0)
         children.append(new_reply)
 
