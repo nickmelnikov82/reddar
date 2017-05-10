@@ -204,12 +204,12 @@ def reddit(id):
     """
     hit = get_reddit(id)
     source = hit['_source']
-    reddit = Reddit(source['id'], source['title'], source['selftext_html'], source['time'], source['author'], 0)
+    reddit = Reddit(source['id'], source['title'], HTMLParser.HTMLParser().unescape(source['selftext_html']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0 , -1)
     replies = get_reply_children(source['id'])
     children = []
     for id in replies:
         source = get_reply(id)['_source']
-        new_reply = Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
+        new_reply = Reddit(source['id'], '', source['body'], datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,0)
         print source['body']
         children.append(new_reply)
     # for i in range(100):
@@ -218,26 +218,26 @@ def reddit(id):
     #     else:
     #         thread = Thread(i, str(i) + "This is a thread title XYXYXYX!","This is the abstract This is a threadThis is a threadThis is a threadThis is the abstract  a threadThis is the abstr a threadThis is the abstract  a threadThis is the abstract  a threadThis is the abstract act  a threadThis is the abstract  a threadThis is the abstract This is a threadThis is a threadThis is a threadThis is the abstract This is a threadThis is a threadThis is a thread", "2016-7-8","whatfuckthisis", "30")
 
-    return render_template('thread.html', thread=reddit, comments=children)
+    return render_template('reddits.html', reddit=reddit, reddits=children)
 
-@app.route('/comment/<Id>')
+@app.route('/reply/<Id>')
 def check_comment_detail(Id):
     """
     :param posting: posting of a article
     :return: the content of this article
     """
-    hit=get_reddit(id)
-    parent_id=search_parent(id)
-    source=get_reply(parent_id)['_source']
-    reddit = Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
-    replies=get_reply_children(parent_id)
+    source=get_reply(id)
+    title=get_reddit(source['path'][0])['_source']['title']
+    source=source['_source']
+    reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'])
+    replies= get_reply_children(parent_id)
     children=[]
     for id in replies:
-        source=get_reply(['_source'])
-        new_reply=Reddit(source['id'], '', source['body'], source['time'], source['author'], 0)
+        source=get_reply(id)['_source']
+        new_reply=Reddit(source['id'], '', HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], 0,source['depth'])
         children.append(new_reply)
 
-    return render_template('thread.html',thread = reddit, comments = children)
+    return render_template('reddits.html',reddit = reddit, reddits = children)
 
     if request.args.get('page'):
         page = int(request.args.get('page'))
@@ -294,8 +294,24 @@ def author(id):
     else:
         page = 0
     reddits = []
+    reddits_hits=search_author_reddit(id)
+    reddits_hits.sort(key=lambda x:x._source.time,reversed=True)
+    replies_hits=search_author_replies(id)
+    replies_hits.sort(key=lambda x:x._source.time,reversed=True)
+    for hit in reddits_hits:
+        source=hit['_source']
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
+        reddits.append(new_reddit)
+    for hit in replies_hits:
+        title=get_reddit(hit['path'])['_source']['title']
+        source = hit['_source']
+        new_reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']),
+                            datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
+                            source['author'], reply['id'])
+        reddits.append(new_reddit)
+
     for i in range(50):
-        reddit = Reddit(i, "This is a thread title !","This is the abstract This is a threadThis is a threadThis is a reddit", 123456,"Huiming Jia", "1")
+        reddit = Reddit(i, "This is a thread title !", "This is the abstract This is a threadThis is a threadThis is a reddit" , 123456 , "Huiming Jia", "1")
         reddits.append(reddit)
 
     if request.args.get('ajax') == "1":
