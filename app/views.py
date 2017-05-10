@@ -230,7 +230,7 @@ def check_comment_detail(Id):
     title=get_reddit(source['path'][0])['_source']['title']
     source=source['_source']
     reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']), datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'), source['author'], source['parent'],source['depth'])
-    replies= get_reply_children(parent_id)
+    replies= get_reply_children(id)
     children=[]
     for id in replies:
         source=get_reply(id)['_source']
@@ -273,14 +273,16 @@ def search():
     reddits = []
     for hit in hits_reddit:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0)
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(source['selftext_html']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],0,-1)
         reddits.append(new_reddit)
     for hit in hits_replies:
         reply=hit['_source']
         red_id=hit['path'][0]
         source=get_reddit(red_id)
         source=source['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
+        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
+                          datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
+                          source['author'],reply['id'],reply['depth'])
         reddits.append(new_reddit)
     if request.args.get('ajax') == "1":
         print (page % (int(math.ceil(len(reddits) / 10))) * 10)
