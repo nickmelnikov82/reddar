@@ -9,6 +9,7 @@ from elasticsearch import Elasticsearch,client,helpers
 
 def search_author_reddit(author):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -30,6 +31,7 @@ def search_author_reddit(author):
 
 def get_reply_children(id):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -49,6 +51,7 @@ def get_reply_children(id):
 
 def search_author_replies(author):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -66,10 +69,29 @@ def search_author_replies(author):
         }
     }
     ret = es.search(index='my_index1', doc_type="my_replies", body=body)
-    return ret['hits']['hits']
+    hits = ret['hits']['hits']
+    for hit in hits:
+        depth = hit['_source']['depth']
+        print hit['_score']
+        hit['_score'] /= (depth + 1)
+        print hit['_score']
+        path = []
+        id = hit['_source']['id']
+        path.insert(0, id)
+        print 'hit:\n'
+        while depth >= 0:
+            parent = search_parent(id)
+            path.insert(0, parent)
+            id = parent
+            depth = depth - 1
+        print path
+        hit['path'] = path
+        print '\n\n'
+    return hits
 
 def get_reply(id):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -86,6 +108,7 @@ def get_reply(id):
 
 def search_parent(id):
     body = {
+        "size" : 9999,
         "query": {
             "bool": {
                 "must": [
@@ -102,6 +125,7 @@ def search_parent(id):
 
 def get_reddit(id):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -118,6 +142,7 @@ def get_reddit(id):
 
 def text_search_replies(query):
     body= {
+        "size": 9999,
         "query": {
             "bool": {
               "must": [
@@ -158,6 +183,7 @@ def text_search_replies(query):
 
 def text_search_reddit(query):
     body = {
+        "size": 9999,
         "query": {
             "bool": {
                 "must": [
@@ -305,14 +331,19 @@ def author(id):
     replies_hits.sort(key=lambda x:x['_source']['time'],reverse=True)
     for hit in reddits_hits:
         source=hit['_source']
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),source['author'],reply['id'])
+        new_reddit=Reddit(source['id'],source['title'],
+                          HTMLParser.HTMLParser().unescape(source['body']),
+                          datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
+                          source['author'],source['id'],-1)
         reddits.append(new_reddit)
     for hit in replies_hits:
-        title=get_reddit(hit['path'])['_source']['title']
+        print hit
+        title=get_reddit(hit['path'][0])['_source']['title']
         source = hit['_source']
-        new_reddit = Reddit(source['id'], title, HTMLParser.HTMLParser().unescape(reply['body']),
+        new_reddit = Reddit(source['id'], title,
+                            HTMLParser.HTMLParser().unescape(source['body']),
                             datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                            source['author'], reply['id'])
+                            source['author'], source['id'],source['depth'])
         reddits.append(new_reddit)
 
     if request.args.get('ajax') == "1":
