@@ -74,6 +74,21 @@ footer {
     margin-bottom: 10px;
 }
 
+.reddit-item {
+    margin-left: 10px;
+    float: left;
+    width: 100%;
+    word-break: break-all;
+    border-color: white;
+    color: white;
+    border-radius: 10px;
+    border-width: 2px;
+    border-style: dotted;
+    padding: 10px;
+    margin-bottom: 10px;
+
+}
+
 .grid-reddit{
      background-color: rgba(0,0,0,0.6);
 }

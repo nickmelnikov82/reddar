@@ -9,6 +9,7 @@ from elasticsearch import Elasticsearch,client,helpers
 
 def search_author_reddit(author):
     body = {
+        "size": 100,
         "query": {
             "bool": {
                 "must": [
@@ -30,6 +31,7 @@ def search_author_reddit(author):
 
 def get_reply_children(id):
     body = {
+        "size": 1,
         "query": {
             "bool": {
                 "must": [
@@ -49,6 +51,7 @@ def get_reply_children(id):
 
 def search_author_replies(author):
     body = {
+        "size": 300,
         "query": {
             "bool": {
                 "must": [
@@ -70,6 +73,7 @@ def search_author_replies(author):
 
 def get_reply(id):
     body = {
+        "size": 1,
         "query": {
             "bool": {
                 "must": [
@@ -86,6 +90,7 @@ def get_reply(id):
 
 def search_parent(id):
     body = {
+        "size": 1,
         "query": {
             "bool": {
                 "must": [
@@ -102,6 +107,7 @@ def search_parent(id):
 
 def get_reddit(id):
     body = {
+        "size": 1,
         "query": {
             "bool": {
                 "must": [
@@ -118,6 +124,7 @@ def get_reddit(id):
 
 def text_search_replies(query):
     body= {
+        "size": 300,
         "query": {
             "bool": {
               "must": [
@@ -138,26 +145,27 @@ def text_search_replies(query):
     hits=res['hits']['hits']
     for hit in hits:
         depth=hit['_source']['depth']
-        print hit['_score']
+        # print hit['_score']
         hit['_score']/=(depth+1)
-        print hit['_score']
+        # print hit['_score']
         path=[]
         id=hit['_source']['id']
         path.insert(0,id)
-        print 'hit:\n'
+        # print 'hit:\n'
         while depth>=0:
             parent=search_parent(id)
             path.insert(0,parent)
             id=parent
             depth=depth-1
-        print path
+        # print path
         hit['path']=path
-        print '\n\n'
+        # print '\n\n'
     return hits
 
 
 def text_search_reddit(query):
     body = {
+        "size": 100,
         "query": {
             "bool": {
                 "must": [
@@ -218,7 +226,7 @@ def reddit(id):
     else:
         page = 0
 
-    print len(children)
+    # print len(children)
 
     if request.args.get('ajax') == "1":
         return render_template('ajax_reddit.html', reddits=children[(page * 5):(page * 5) + 5])
@@ -258,8 +266,8 @@ def search():
     query = str(request.args.get('query')).strip()
     page = int(request.args.get('page'))
     sort=int(request.args.get('sort'))
-    print sort
-    print 1234
+    # print sort
+    # print 1234
     hits_reddit=text_search_reddit(query)
     hits_replies=text_search_replies(query)
     if sort==1:
@@ -278,13 +286,11 @@ def search():
         red_id=hit['path'][0]
         source=get_reddit(red_id)
         source=source['_source']
+        new_reddit=Reddit(reply['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
+                          datetime.datetime.fromtimestamp(int(reply['time'])).strftime('%Y-%m-%d %H:%M:%S'),
+                          reply['author'],reply['id'],reply['depth'])
 
-        new_reddit=Reddit(source['id'],source['title'],HTMLParser.HTMLParser().unescape(reply['body']),
-                          datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
-                          source['author'],reply['id'],reply['depth'])
         reddits.append(new_reddit)
-
-    print len(reddits)
 
     if request.args.get('ajax') == "1":
         print (page % (int(math.ceil(len(reddits) / 10))) * 10)
