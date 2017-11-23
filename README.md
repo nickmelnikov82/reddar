@@ -3,10 +3,10 @@
 ## What is Reddar?
 * Reddar is a retrieval system based on elasticsearch and python flask for Reddit data. We already fetch part of data from Reddit "IAMA" thread for experiment, you may want to retrieve own data by Reddit json APIs to build corpus!
 
-## Why is Reddar (Difference from Reddit)?
+## Why Reddar (Difference from Reddit)?
 #### Userability 
 - Restructured data and re-designed interaction
-- [diagram](https://github.com/HuimingJia/Reddar/blob/master/images/Structure.png)
+- ![diagram](https://github.com/HuimingJia/Reddar/blob/master/images/Structure.png)
 
 #### Flexibility
 - Improved search functionality with elastic seach and organized search results for different demand
@@ -20,18 +20,21 @@
 ## Index and Query
 - Article(Theme) index
 	- Indexing the article content separately without replies
+	- Standard tokenizer, porter stem, english stop
 -  Replies index
-	- Indexing all the replies content and each their parent. (The replies' which depth is 0 will have article(theme) as parent)
+	- Indexing all the replies content and each their parent. (The replies' which depth is 0 will have article(theme) as parent
+	- Standard tokenizer, porter stem, english stop
 - Text Search: 
 	- Search all relevant articles
 	- Search all relevant replies
 	- Reconstruct the structure through depth and parent fields
+	
 - Author Search: 
 	- Search all articles posted by the author
 	- Search all replies posted by the author
 - Weighting
 	- we considered the replies’ relevance decrease as they go deeper, which means the replies close to the root (the reddit article ) are more relevant to those far from the root. Assign the first level of replies as depth 0. The weight of a reply is 1/(1+depth).
-- sorting
+- Sorting
  	- We support 3 kinds of sorting: relevance, time, score (upvotes- downvotes)
 
 
