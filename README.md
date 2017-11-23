@@ -1,33 +1,45 @@
 # README
 
 ## What is Reddar?
-* Reddar is a retrieval system based on elasticsearch for Reddit data. We already fetch part of data from Reddit "IAMA" thread for experiment by Reddit Jason APIs, you may want to retrieve own data to build corpus!
+* Reddar is a retrieval system based on elasticsearch and python flask for Reddit data. We already fetch part of data from Reddit "IAMA" thread for experiment, you may want to retrieve own data by Reddit json APIs to build corpus!
 
-## Why is Reddar(Difference from Reddit)?
-* ####Userability 
-	* Restructured data and re-designed interaction
+## Why is Reddar (Difference from Reddit)?
+#### Userability 
+- Restructured data and re-designed interaction
+- [diagram](https://github.com/HuimingJia/Reddar/blob/master/images/Structure.png)
 
-* ####Flexibility
-	* Improved search functionality with elastic seach and organized search results for different demand
+#### Flexibility
+- Improved search functionality with elastic seach and organized search results for different demand
 
 ## Feature
- -  can check out near by farmers markets.
- -  can see which vendors have a specific product.
- -  can specific product and want to know which vendor has it and is open now.
- -  can be able to view all local products from all local vendors.
- -  can go to a farmers market page and check which farmers markets are open now.
- -  can explore markets around me and see the vendors at each market and what each vendor has.
- -  can see some popular products nearby
- -  can save products to my grocery list. 
- -  can review Farmers Markets I’ve been to. 
- -  can request system help schedule a reasonable shopping plan base on time and location
+ - Full-text search Reddit data with elastic search
+ - Order search results by relevance, time, score and distinguish result by theme and replies
+ - Flatten reddit content and re-arrange replies by time
+ - Check user history
+ 
+## Index and Query
+- Article(Theme) index
+	- Indexing the article content separately without replies
+-  Replies index
+	- Indexing all the replies content and each their parent. (The replies' which depth is 0 will have article(theme) as parent)
+- Text Search: 
+	- Search all relevant articles
+	- Search all relevant replies
+	- Reconstruct the structure through depth and parent fields
+- Author Search: 
+	- Search all articles posted by the author
+	- Search all replies posted by the author
+- Weighting
+	- we considered the replies’ relevance decrease as they go deeper, which means the replies close to the root (the reddit article ) are more relevant to those far from the root. Assign the first level of replies as depth 0. The weight of a reply is 1/(1+depth).
+- sorting
+ 	- We support 3 kinds of sorting: relevance, time, score (upvotes- downvotes)
 
 
 ## Demo
 Here is a live demo deployed on heroku with partial data :  [Reddar](https://github.com/HuimingJia/Reddar)
 
 ## Notes
-Before start flask application, please make ure you already start local elasticsearch(which is for building index and work as database in our application) first! You can start application by run commands in the terminal as follows. 
+Before starting flask application, please make sure you already start local elasticsearch(which is for building index and work as database in our application) first! You can start application by run commands in the terminal as follows. 
 
 ```
 - <elasticsearch path>/bin/elasticsearch
