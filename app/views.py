@@ -352,7 +352,7 @@ def author(id):
     for hit in reddits_hits:
         source=hit['_source']
         new_reddit=Reddit(source['id'],source['title'],
-                          HTMLParser.HTMLParser().unescape(source['body']),
+                          HTMLParser.HTMLParser().unescape(source['selftext_html']),
                           datetime.datetime.fromtimestamp(int(source['time'])).strftime('%Y-%m-%d %H:%M:%S'),
                           source['author'],source['id'],-1,source['score'])
         reddits.append(new_reddit)
