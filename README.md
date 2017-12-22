@@ -73,9 +73,6 @@ after elasticsearch started
 ### User History
 ![User History](https://github.com/HuimingJia/Reddar/blob/master/images/UserReddit.png) 
 
-## Index Schema
-
-
 ## Development
 Want to contribute? Great!
 
