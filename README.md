@@ -39,7 +39,7 @@
 
 
 ## Demo
-Here is a live demo deployed on heroku with partial data :  [Reddar](https://github.com/HuimingJia/Reddar)
+Here is a live demo deployed on heroku with partial data :  [Reddar](https://github.com/HuimingJia/Reddar) (not available any more)
 
 ## Notes
 Before starting flask application, please make sure you already start local elasticsearch(which is for building index and work as database in our application) first! You can start application by run commands in the terminal as follows.
