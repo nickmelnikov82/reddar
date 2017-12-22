@@ -4,7 +4,7 @@
 * Reddar is a retrieval system based on elasticsearch and python flask for Reddit data. We already fetch part of data from Reddit "IAMA" thread for experiment, you may want to retrieve own data by Reddit json APIs to build corpus!
 
 ## Why Reddar (Difference from Reddit)?
-#### Userability 
+#### Userability
 - Restructured data and re-designed interaction
 - ![diagram](https://github.com/HuimingJia/Reddar/blob/master/images/Structure.png)
 
@@ -16,7 +16,7 @@
  - Order search results by relevance, time, score and distinguish result by theme and replies
  - Flatten reddit content and re-arrange replies by time
  - Check user history
- 
+
 ## Index and Query
 - Article(Theme) index
 	- Indexing the article content separately without replies
@@ -24,12 +24,12 @@
 -  Replies index
 	- Indexing all the replies content and each their parent. (The replies' which depth is 0 will have article(theme) as parent
 	- Standard tokenizer, porter stem, english stop
-- Text Search: 
+- Text Search:
 	- Search all relevant articles
 	- Search all relevant replies
 	- Reconstruct the structure through depth and parent fields
-	
-- Author Search: 
+
+- Author Search:
 	- Search all articles posted by the author
 	- Search all replies posted by the author
 - Weighting
@@ -42,7 +42,7 @@
 Here is a live demo deployed on heroku with partial data :  [Reddar](https://github.com/HuimingJia/Reddar)
 
 ## Notes
-Before starting flask application, please make sure you already start local elasticsearch(which is for building index and work as database in our application) first! You can start application by run commands in the terminal as follows. 
+Before starting flask application, please make sure you already start local elasticsearch(which is for building index and work as database in our application) first! You can start application by run commands in the terminal as follows.
 
 ```
 - <elasticsearch path>/bin/elasticsearch
@@ -59,7 +59,7 @@ after elasticsearch started
 ![Home Page](https://github.com/HuimingJia/Reddar/blob/master/images/HomePage.png)
 
 ### Search Bar
-![Search Bar](https://github.com/HuimingJia/Reddar/blob/master/images/SearchFunction.png) 
+![Search Bar](https://github.com/HuimingJia/Reddar/blob/master/images/SearchFunction.png)
 
 ### Search Result
 ![Search Result](https://github.com/HuimingJia/Reddar/blob/master/images/SearchResult.png)
@@ -71,7 +71,7 @@ after elasticsearch started
 ![Reply Page](https://github.com/HuimingJia/Reddar/blob/master/images/Reply.png)
 
 ### User History
-![User History](https://github.com/HuimingJia/Reddar/blob/master/images/UserReddit.png) 
+![User History](https://github.com/HuimingJia/Reddar/blob/master/images/UserReddit.png)
 
 ## Development
 Want to contribute? Great!
@@ -102,6 +102,3 @@ To fix a bug or enhance an existing module, follow these steps:
 ## Team
 
 [![Huiming Jia](https://avatars1.githubusercontent.com/u/22848271?s=200)](https://github.com/HuimingJia)  | [![MingyangJin](https://avatars2.githubusercontent.com/u/23490377?s=200)](https://github.com/HuxTim)|
----|---|
-[Huiming Jia](https://github.com/HuimingJia) |[MingyangJin](https://github.com/MingyangJin) |
-
