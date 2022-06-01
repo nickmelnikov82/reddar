@@ -99,6 +99,3 @@ To fix a bug or enhance an existing module, follow these steps:
 - Analyze url direct to media content and directly show media content in application
 - Definie Synonyms to explore more interesting search functionalities
 
-## Team
-
-[![Huiming Jia](https://avatars1.githubusercontent.com/u/22848271?s=200)](https://github.com/HuimingJia)  | [![MingyangJin](https://avatars2.githubusercontent.com/u/23490377?s=200)](https://github.com/HuxTim)|
